@@ -1,0 +1,145 @@
+import wixData from 'wix-data';
+import Axios from 'axios';
+const userID = "615082";
+const apiKey = "5830d2acdb5c0c592d01384a1b45a5af";
+const auth = "Basic NjE1MTgxOjQyNDlkZGE0ZmQ0YzBiMjg0YjFmNmI2NmQyZTY0MDVk";
+const headers = {
+  Authorization: auth
+};
+///numero table
+async function  get_matchmaking(inputData) {
+ const res = await Axios.post('	https://json.astrologyapi.com/v1/match_manglik_report', inputData, {
+    headers: headers
+  });
+  console.log(res.data);
+  return res.data;
+
+}
+
+// const min=$w('#timePicker1').value.getDay();
+// const sec=$w('#timePicker1').value.getDay();
+export function submit_click(event) {
+	const daym = $w('#datePickerm').value.getDay();
+	const monthm = $w('#datePickerm').value.getMonth();
+	const yearm = $w('#datePickerm').value.getFullYear();
+	const mlat =$w('#mlatitude').value;
+	const mlang =$w('#mlongitude').value;
+ 	const hourm=$w('#timePickerm').value.substr(0, 2);
+	const minm=$w('#timePickerm').value.substr(3, 2);
+	const dayf = $w('#datePickerf').value.getDay();
+	const monthf = $w('#datePickerf').value.getMonth();
+ 	const yearf = $w('#datePickerf').value.getFullYear();
+  const flat =$w('#flatitude').value;
+	const flang =$w('#flongitude').value;
+  const hourf=$w('#timePickerf').value.substr(0, 2);
+	const minf=$w('#timePickerf').value.substr(3, 2);
+	console.log(daym);
+	console.log(hourm)
+	console.log(minm)
+	console.log(yearm);
+  console.log(dayf);
+	console.log(hourf)
+	console.log(minf)
+	console.log(yearf);
+	let inputData = {
+	m_day:daym,
+	m_month: monthm,
+	m_year: yearm,
+	m_hour:hourm,
+	m_min: minm,
+	m_lat:mlat,
+	m_lon:mlang,
+	m_tzone:"5.5",
+	f_day:dayf,
+	f_month: monthf,
+	f_year: yearf,
+	f_hour:hourf,
+	f_min: minf,
+	f_lat:flat,
+	f_lon:flang,
+	f_tzone:"5.5",
+		
+	}
+ get_matchmaking(inputData).then(res=>{
+console.log(res);
+		expandmatchmaking();
+		$w("#mrbasedonaspect").text = res.male.manglik_present_rule.based_on_aspect.toString().replace(/,/g, '');
+	    $w("#mrbasedonhouse").text = res.male.manglik_present_rule.based_on_house.toString().replace(/,/g, '');
+		 $w("#mrmanglikcancelrule").text = res.male.manglik_cancel_rule.toString();
+		  $w("#mrismarsmanglikcancelled").text = res.male.is_mars_manglik_cancelled.toString();
+		    $w("#mrmanglikstatus").text = res.male.manglik_status;
+			$w("#mrpercentagemanglikpresent").text = res.male.percentage_manglik_present.toString();
+			$w("#mrpercentagmanglikaftercancellation").text = res.male.percentage_manglik_after_cancellation.toString();
+			$w("#mrmanglikreport").text = res.male.manglik_report.toString();
+				$w("#mrispresent").text = res.male.is_present.toString();
+
+          //////////femalw
+		  $w("#frbasedonaspect").text = res.female.manglik_present_rule.based_on_aspect.toString().replace(/,/g, '');
+	    $w("#frbasedonhouse").text = res.female.manglik_present_rule.based_on_house.toString().replace(/,/g, '');
+		 $w("#frmanglikcancelrule").text = res.female.manglik_cancel_rule.toString();
+		  $w("#frismarsmanglikcancelled").text = res.female.is_mars_manglik_cancelled.toString();
+		    $w("#frmanglikstatus").text = res.female.manglik_status;
+			$w("#frpercentagemanglikpresent").text = res.female.percentage_manglik_present.toString();
+			$w("#frpercentagemanglikaftercancellation").text = res.female.percentage_manglik_after_cancellation.toString();
+			$w("#frmanglikreport").text = res.female.manglik_report.toString();
+				$w("#frispresent").text = res.female.is_present.toString();
+				//report
+
+            $w("#frmatch").text = res.conclusion.match.toString();
+            $w("#frreport").text = res.conclusion.report.toString();
+
+	});
+
+	// This function was added from the Properties & Events panel. To learn more, visit http://wix.to/UcBnC-4
+	// Add your code for this event here: 
+}
+
+function expandmatchmaking () {
+
+	$w("#manglikreport").expand();
+	$w("#male").expand();
+	$w("#mmanglikpresentrule").expand();
+	$w("#mbasedonaspect").expand();
+	$w("#mrbasedonaspect").expand();
+	$w("#mbasedonhouse").expand();
+	$w("#mrbasedonhouse").expand();
+	$w("#mmanglikcancelrule").expand();
+	$w("#mrmanglikcancelrule").expand();
+	$w("#mismarsmanglikcancelled").expand();
+	$w("#mrismarsmanglikcancelled").expand();
+	$w("#mpercentagemanglikpresent").expand();
+	$w("#mrpercentagemanglikpresent").expand();
+	$w("#mpercentagmanglikaftercancellation").expand();
+	$w("#mrpercentagmanglikaftercancellation").expand();
+	$w("#mmanglikreport").expand();
+	$w("#mrmanglikreport").expand();
+	$w("#mispresent").expand();
+	$w("#mrispresent").expand();
+
+$w("#Female").expand();
+$w("#fmanglikpresentrule").expand();
+$w("#fbasedonaspect").expand();
+$w("#frbasedonaspect").expand();
+$w("#fbasedonhouse").expand();
+$w("#frbasedonhouse").expand();
+$w("#fmanglikcancelrule").expand();
+$w("#frmanglikcancelrule").expand();
+$w("#fismarsmanglikcancelled").expand();
+$w("#frismarsmanglikcancelled").expand();
+$w("#fmanglikstatus").expand();
+$w("#frmanglikstatus").expand();
+$w("#fpercentagemanglikpresent").expand();
+$w("#frpercentagemanglikpresent").expand();
+$w("#fpercentagemanglikaftercancellation").expand();
+$w("#frpercentagemanglikaftercancellation").expand();
+$w("#fmanglikreport").expand();
+$w("#frmanglikreport").expand();
+$w("#fispresent").expand();
+$w("#frispresent").expand();
+$w("#fconclusion").expand();
+
+$w("#fmatch").expand();
+$w("#frmatch").expand();
+$w("#freport").expand();
+$w("#frreport").expand();	
+}
